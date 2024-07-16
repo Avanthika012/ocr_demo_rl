@@ -50,6 +50,7 @@ __pycache__
 results
 uploads
 logs
+model_weights
 .history/
 .ipynb_checkpoints
 
