@@ -41,7 +41,7 @@ try:
     with open('./model_jsons/paramx.json', 'r') as f:
         params = json.load(f)
     # Initialize the OCR model with the result path
-    ocr_modelx = OCR(params,res_path=RESULT_FOLDER)
+    ocr_modelx = OCR(params,logger=logger,res_path=RESULT_FOLDER)
 except:
     print(f"\n [ERROR] {datetime.datetime.now()} OCR model loading failed!!!\n ")
     traceback.print_exception(*sys.exc_info())

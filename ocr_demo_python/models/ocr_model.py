@@ -20,7 +20,7 @@ from models.paddleocr.tools.infer.predict_rec import PaddleOCRx
 ### ocr code 
 class OCR():
 
-    def __init__(self,params,logger):
+    def __init__(self,params,logger,res_path="../results"):
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
 
 
@@ -42,7 +42,7 @@ class OCR():
         self.drop_score = 0.5
         self.logger = logger
         
-        self.draw_img_save_dir =  "../results"
+        self.draw_img_save_dir =  res_path
         os.makedirs(self.draw_img_save_dir, exist_ok=True)
 
 
