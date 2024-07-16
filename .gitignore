@@ -45,10 +45,11 @@ yarn-error.logs*
 *.pth
 *.log
 *.jpg
+*.jpeg
 __pycache__
-annotation_check
-dataset
-training_backup
+results
+uploads
+logs
 .history/
 .ipynb_checkpoints
 
