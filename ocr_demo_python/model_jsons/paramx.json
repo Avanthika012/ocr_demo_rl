@@ -1,0 +1,32 @@
+{
+    "models": {
+      "fasterrcnn": {
+        "model_weights":"./model_weights/fasterrcnn_honda.pth",
+        "det_th": 0.8,
+        "iou_th": 0.4
+      }
+    },
+
+    "ocr_models": {
+
+        "paddleocr": {
+          "model_weights":"./model_weights/test_recognition"         
+
+        }
+      },
+        
+    "classes":["text"],
+    "video_dir":null,
+    "image_dir":"/home/frinksserver/Deepak/OCR/data_preparation/paddleOCR_data_preparation/split_det_text/test",
+
+    "custom_name":"ocr_honda_test",
+    "use_model":"fasterrcnn",
+    "use_ocr_model":"paddleocr",
+
+    "output_dir":"./results",
+    "lowfpsvid":false
+
+
+
+
+}

@@ -2,20 +2,23 @@ from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 import os
 import cv2
-from paddleocr.ocr_model import OCR
+from models.ocr_model import OCR
 import base64
 import sys
 from OpenSSL import SSL
 from flask_cors import CORS
+import json
+import datetime
+import traceback
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'models'))
 
 # Get the logger
-from paddleocr.logger_setup import get_logger
+from logger_setup import get_logger
 logger = get_logger(__name__, "ocr.log", console_output=True)
 
 # Importing messages module
-from paddleocr.messages import Messagesx
+from messages import Messagesx
 msgs = Messagesx()
 logger.info(msgs.welcome("OCR DEMO"))
 
@@ -34,8 +37,15 @@ logger.info("UPLOAD_FOLDER = 'uploads' & RESULT_FOLDER = 'results' folders creat
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['RESULT_FOLDER'] = RESULT_FOLDER
 
-# Initialize the OCR model with the result path
-ocr_modelx = OCR(res_path=RESULT_FOLDER)
+try:
+    with open('./model_jsons/paramx.json', 'r') as f:
+        params = json.load(f)
+    # Initialize the OCR model with the result path
+    ocr_modelx = OCR(params,res_path=RESULT_FOLDER)
+except:
+    print(f"\n [ERROR] {datetime.datetime.now()} OCR model loading failed!!!\n ")
+    traceback.print_exception(*sys.exc_info())
+    sys.exit(1)
 
 # Define allowed extensions for image files
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -97,7 +107,7 @@ def process_image(file_path,manualEntryx):
     logger.info(f"Working with img: {file_path}")
     
     # Use the OCR model to process the image
-    res_img, res_txt, result_img_path = ocr_modelx(img,img_name=file_path.split("/")[-1],manualEntryx=manualEntryx)
+    res_txt, result_img_path = ocr_modelx(img,img_name=file_path.split("/")[-1],manualEntryx=manualEntryx)
     logger.info(f"\nres_txt: {res_txt}\n result_img_path: {result_img_path}\n")
     
     # Read the resulting image as bytes
