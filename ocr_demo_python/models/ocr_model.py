@@ -33,6 +33,7 @@ class OCR():
         else:
             self.model = None
         if params["use_ocr_model"] == "paddleocr":
+            print(f"__init__ OCR: initiating PaddleOCRx")
             self.ocr_model = PaddleOCRx(model_weights=params["ocr_models"]["paddleocr"]["model_weights"])
             print(f"PaddleOCRx model created for text RECOG task!!!")
 
@@ -51,7 +52,7 @@ class OCR():
         ### -------- TEXT DETECTION --------
         boxes, class_names, scores = self.model(image)
         # print(f"[INFO] {datetime.datetime.now()}: time taken for text detection {time.time() - st } seconds")
-        self.logger.ocr_logger.info(f"[INFO] time taken for text detection {time.time() - st } seconds x {len(class_names)} no. of texts detected!!!")
+        self.logger.info(f"[INFO] time taken for text detection {time.time() - st } seconds x {len(class_names)} no. of texts detected!!!")
         detected_texts = []
         detection_scores = []
         detected_bboxes = []
@@ -73,7 +74,7 @@ class OCR():
                     detection_scores.append(score)
                     
                     # print(f"[INFO] {datetime.datetime.now()}: time taken for text recognition {time.time() - st }  seconds")
-                    self.logger.ocr_logger.info(f"[INFO] time taken for text recognition {time.time() - st } seconds x detected texts: {detected_texts} detection_scores:{detection_scores}")
+                    self.logger.info(f"[INFO] time taken for text recognition {time.time() - st } seconds x detected texts: {detected_texts} detection_scores:{detection_scores}")
 
         ### plotting results and saving images 
         draw_img = self.draw_ocr_box_txt(

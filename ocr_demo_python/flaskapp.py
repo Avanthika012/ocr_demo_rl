@@ -24,7 +24,7 @@ logger.info(msgs.welcome("OCR DEMO"))
 
 app = Flask(__name__)
 # Enable CORS for specific origin
-CORS(app, resources={r"/*": {"origins": "https://10.42.0.1:3000"}})
+CORS(app, resources={r"/*": {"origins": "https://192.168.11.53:3000"}})
 # Define the paths
 UPLOAD_FOLDER = 'uploads'
 RESULT_FOLDER = 'results'
@@ -117,7 +117,7 @@ def process_image(file_path,manualEntryx):
     return res_img_bytes
 
 if __name__ == '__main__':
-    context = ('/home/frinksserver/Desktop/ocr_demo/192.168.10.254.pem', '/home/frinksserver/Desktop/ocr_demo/192.168.10.254-key.pem')  # Provide the path to your certificate and key files
+    context = ('/home/frinksserver/aryan/ocr-demo-frontend-4Jul/ocr-demo-frontend/192.168.11.53.pem', '/home/frinksserver/aryan/ocr-demo-frontend-4Jul/ocr-demo-frontend/192.168.11.53-key.pem')  # Provide the path to your certificate and key files
     logger.info(msgs.processstart)
     app.run(host='0.0.0.0', port=9000, ssl_context=context, debug=True)
     logger.info(msgs.processend)

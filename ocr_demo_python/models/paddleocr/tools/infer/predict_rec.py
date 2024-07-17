@@ -33,6 +33,7 @@ import tools.infer.utility as utility
 from ppocr.postprocess import build_post_process
 from ppocr.utils.logging import get_logger
 from ppocr.utils.utility import get_image_file_list, check_and_read
+from tools.infer.utility import init_args
 
 logger = get_logger()
 
@@ -167,7 +168,7 @@ class TextRecognizer(object):
                 warmup=0,
                 logger=logger,
             )
-        self.return_word_box = args.return_word_box
+        self.return_word_box = False
 
     def resize_norm_img(self, img, max_wh_ratio):
         imgC, imgH, imgW = self.rec_image_shape
@@ -787,14 +788,34 @@ tools/infer/predict_rec.py
 --rec_char_dict_path ./ppocr/utils/en_dict.txt
 """
 
+def get_all_arguments(parser):
+    args = []
+    for action in parser._actions:
+        if action.dest != 'help':
+            arg_info = {
+                'name': action.dest,
+                'default': action.default,
+                'type': action.type,
+                'help': action.help
+            }
+            args.append(arg_info)
+    return args
+
+
 class PaddleOCRx():
 
     def __init__(self,model_weights,rec_image_shape="3, 48, 320",rec_char_dict_path="./models/paddleocr/en_dict.txt" ) -> None:
 
-        self.args = utility.parse_args()
+        print(f"\n\n\n init PAddleocdf \n\n\n")
+        
+        # self.args = utility.parse_args()
+        parser = init_args() 
+        self.args = parser.parse_args()
         self.args.rec_model_dir = model_weights
         self.args.rec_image_shape = rec_image_shape
         self.args.rec_char_dict_path = rec_char_dict_path
+        # print(f"\n\n\n self.args.return_word_box:{self.args.return_word_box}\n\n\n")
+
 
 
         self.modelpaddlex = TextRecognizer(self.args)
